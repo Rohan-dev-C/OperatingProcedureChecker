@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Compliance Checker</title>
+</head>
+<body>
+  <h2>Upload SOP File</h2>
+  <form id="sopForm">
+    <input type="file" id="sopFile" name="file" />
+    <button type="submit">Upload SOP</button>
+  </form>
+
+  <h2>Upload Regulatory Document</h2>
+  <form id="regForm">
+    <input type="file" id="regFile" name="file" />
+    <button type="submit">Upload Regulation</button>
+  </form>
+
+  <h2>Run Compliance Analysis</h2>
+  <button id="runBtn">Run</button>
+  <p id="status"></p>
+
+  <h2>Compliance Report</h2>
+  <iframe id="reportFrame" style="width:100%; height:600px; border:1px solid #ccc;"></iframe>
+
+<script>
+  async function upload(formId, endpoint) {
+    const form = document.getElementById(formId);
+    const data = new FormData(form);
+    const resp = await fetch(endpoint, { method: "POST", body: data });
+    const json = await resp.json();
+    alert(json.message);
+  }
+
+  document.getElementById("sopForm").onsubmit = e => {
+    e.preventDefault();
+    upload("sopForm", "/upload-sop/");
+  };
+
+  document.getElementById("regForm").onsubmit = e => {
+    e.preventDefault();
+    upload("regForm", "/upload-reg/");
+  };
+
+  document.getElementById("runBtn").onclick = async () => {
+    document.getElementById("status").textContent = "Running analysis…";
+    const resp = await fetch("/run-analysis/", { method: "POST" });
+    const json = await resp.json();
+    document.getElementById("status").textContent = json.message;
+    document.getElementById("reportFrame").src = "/report";
+  };
+</script>
+</body>
+</html>

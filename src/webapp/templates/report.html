@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Compliance Checker</title>
+</head>
+<body>
+  <h2>Upload SOP File</h2>
+  <form id="sopForm">
+    <input type="file" name="file" id="sopFile" required>
+    <button type="submit">Upload SOP</button>
+  </form>
+
+  <h2>Upload Regulatory Document</h2>
+  <form id="regForm">
+    <input type="file" name="file" id="regFile" required>
+    <button type="submit">Upload Regulation</button>
+  </form>
+
+  <h2>Run Compliance Analysis</h2>
+  <button onclick="runPipeline()">Run</button>
+  <p id="status"></p>
+
+  <h2>Compliance Report</h2>
+  <iframe id="reportFrame" style="width: 100%; height: 600px; border: 1px solid #ccc;"></iframe>
+
+<script>
+  async function upload(formId, endpoint) {
+    const form = document.getElementById(formId);
+    const formData = new FormData(form);
+    const fileInput = form.querySelector("input[type=file]");
+    if (!fileInput.files.length) return alert("Select a file first");
+
+    const res = await fetch(endpoint, {
+      method: "POST",
+      body: formData
+    });
+
+    const result = await res.json();
+    alert(result.message);
+  }
+
+  document.getElementById("sopForm").onsubmit = async (e) => {
+    e.preventDefault();
+    await upload("sopForm", "/upload-sop/");
+  };
+
+  document.getElementById("regForm").onsubmit = async (e) => {
+    e.preventDefault();
+    await upload("regForm", "/upload-reg/");
+  };
+
+  async function runPipeline() {
+    document.getElementById("status").textContent = "Running analysis…";
+    const res = await fetch("/run-analysis/", { method: "POST" });
+    const result = await res.json();
+    document.getElementById("status").textContent = result.message;
+    document.getElementById("reportFrame").src = "/report";
+  }
+</script>
+</body>
+</html>

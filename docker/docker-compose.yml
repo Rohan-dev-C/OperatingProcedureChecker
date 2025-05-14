@@ -1,0 +1,15 @@
+version: "3.9"
+
+services:
+  app:
+    build: .
+    container_name: compliance-web
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data
+      - ./vector_store:/app/vector_store
+      - ./compliance_report.md:/app/compliance_report.md
+    environment:
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - TOKENIZERS_PARALLELISM=false
