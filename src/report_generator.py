@@ -1,5 +1,12 @@
+"""
+
+Generates a grouped Markdown compliance report from
+analysis suggestions and SOP sections.
+
+"""
+
 from typing import List, Dict
-from collections import defaultdict, OrderedDict
+from collections import defaultdict
 import os
 
 
@@ -34,4 +41,4 @@ def generate_markdown_report(sections: List[Dict[str, str]],
         os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "w", encoding="utf-8") as f:
         f.write("\n".join(lines))
-    print(f"✅ Report saved to: {path}")
+    print(f"Report saved to: {path}")

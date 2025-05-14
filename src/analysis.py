@@ -1,5 +1,7 @@
-# src/analysis.py
-
+"""
+Defines logic for generating human-readable compliance suggestions
+by comparing SOP excerpts to regulatory clauses via Claude LLM.
+"""
 from typing import List, Dict
 import os
 import json

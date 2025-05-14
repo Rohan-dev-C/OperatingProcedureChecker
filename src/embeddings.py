@@ -1,5 +1,6 @@
 """
-Light-weight text-to-vector helper using scikit-learn's TfidfVectorizer.
+Provides a lightweight TF-IDF embedding function to vectorize text
+without relying on Hugging-Face/tokenizers (avoids parallelism warnings).
 """
 
 from sklearn.feature_extraction.text import TfidfVectorizer

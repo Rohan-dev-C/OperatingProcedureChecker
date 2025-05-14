@@ -1,3 +1,8 @@
+""" 
+Wrapper around a FAISS index and metadata,
+for storing and querying text embeddings.
+
+"""
 import os
 import pickle
 import numpy as np

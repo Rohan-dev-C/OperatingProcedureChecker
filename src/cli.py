@@ -1,6 +1,11 @@
+"""
+Command-line entrypoint for running the full SOP ↔ Regulation
+compliance pipeline (ingestion, extraction, embedding, retrieval,
+analysis, and report generation).
+"""
+
 import argparse
 from collections import Counter
-
 from src.ingestion import load_documents
 from src.clause_extractor import extract_clauses, _coerce_to_text
 from src.embeddings import embed_texts

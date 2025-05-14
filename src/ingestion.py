@@ -1,3 +1,6 @@
+"""
+Loads PDF and DOCX files from a directory and extracts plain text.
+"""
 from pathlib import Path
 from typing import Dict
 

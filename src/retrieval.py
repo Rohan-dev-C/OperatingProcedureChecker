@@ -1,3 +1,7 @@
+"""
+Per-document top-k vector retrieval via FAISS plus Claude-based
+filtering of relevant clauses.
+"""
 from typing import List, Dict, Any
 import os, json, numpy as np
 from collections import defaultdict
@@ -9,8 +13,7 @@ from src.vector_db import VectorDB
 
 class Retrieval:
     """
-    • Pull up to `top_k_per_doc` nearest vectors *per* regulatory file.
-    • Ask Claude to pick the truly relevant ones.
+    Pull up to `top_k_per_doc` nearest vectors *per* regulatory file, then ask Claude only pick the relevant ones.
     """
 
     def __init__(self,

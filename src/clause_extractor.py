@@ -1,9 +1,9 @@
 """
 Robust clause extraction & cleaning.
 
-• If headings like "Section 5.1" exist, split on them.
-• Otherwise split on paragraphs, but discard fragments that are
-  shorter than 30 alphabetic characters or are >40 % non-alpha.
+If headings like "Section 5.1" exist, split on them. 
+Otherwise split on paragraphs, but discard fragments that are
+shorter than 30 alphabetic characters or are >40 % non-alpha.
 """
 
 from typing import List, Dict, Any
