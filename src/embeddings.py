@@ -1,9 +1,7 @@
-# src/embeddings.py
 """
 Light-weight text-to-vector helper using scikit-learn's TfidfVectorizer.
 """
 
-import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 from typing import List, Optional
 

@@ -56,10 +56,6 @@ class VectorDB:
                 results.append(item)
         return results
 
-    def all(self) -> List[Dict[str, Any]]:
-        """Return metadata for every stored vector."""
-        return self.metadata.copy()
-
     def save(self):
         os.makedirs(os.path.dirname(self.index_path), exist_ok=True)
         faiss.write_index(self.index, self.index_path)

@@ -8,7 +8,6 @@ Robust clause extraction & cleaning.
 
 from typing import List, Dict, Any
 import re
-import string
 
 _HEADING_RE = re.compile(r"(?:Section|Article)\s+(\d+(?:\.\d+)*)", re.IGNORECASE)
 MIN_ALPHA = 30           
