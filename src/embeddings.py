@@ -11,9 +11,11 @@ _VECTORIZER: Optional[TfidfVectorizer] = None
 
 def embed_texts(texts: List[str]) -> List[List[float]]:
     """
-    On first call, fits a TfidfVectorizer on `texts` and returns vectors.
-    On subsequent calls, transforms with the existing vectorizer.
-    Returns dense float vectors.
+    Fit or transform a list of texts into dense TF-IDF vectors.
+    
+    On first call: fits on `texts`. On later calls: only transforms.
+    texts: List of strings to embed.
+    Returns List of dense float vectors.
     """
     global _VECTORIZER
     if _VECTORIZER is None:

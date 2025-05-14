@@ -1,7 +1,6 @@
 """
-Command-line entrypoint for running the full SOP ↔ Regulation
-compliance pipeline (ingestion, extraction, embedding, retrieval,
-analysis, and report generation).
+Runs Full compliance pipeline (ingestion, extraction, 
+embedding, retrieval, analysis, and report generation).
 """
 
 import argparse
@@ -16,6 +15,15 @@ from src.report_generator import generate_markdown_report
 
 
 def run_pipeline(sop_dir: str, regs_dir: str, top_k_per_doc: int = 3) -> None:
+    """
+    Load SOP + regulatory docs, build vector DB, retrieve & filter clauses,
+    ask Claude for differences, and write compliance_report.md.
+    
+    sop_dir:        Directory containing SOP PDF/DOCX.
+    regs_dir:       Directory containing regulatory PDF/DOCX.
+    top_k_per_doc:  How many clauses to pull per regulatory file.
+    """
+    
     print("Loading SOP and regulatory documents...")
     sop_texts = load_documents(sop_dir)
     reg_texts = load_documents(regs_dir)

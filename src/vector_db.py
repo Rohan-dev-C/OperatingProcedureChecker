@@ -12,18 +12,20 @@ from typing import List, Dict, Any
 
 class VectorDB:
     """
-    Wrapper around a FAISS IndexFlatL2 and aligned metadata.
-
-    Args:
-        index_path: path to the FAISS .index file (default: vector_store/clauses.index)
-        dim: dimensionality of embeddings
-        reset: if True, ignore existing index and create a new one
+    Manages FAISS index on-disk plus metadata for each vector.
     """
 
     def __init__(self, index_path: str = "vector_store/clauses.index", dim: int = 1536, reset: bool = False):
+        """
+        Args:
+          dim:         Dimensionality of embeddings.
+          reset:       If True, starts a fresh index (erases old).
+          index_path:  Path to persist FAISS index.
+          meta_path:   Path to persist metadata list.
+        """
+        
         self.index_path = index_path
         self.dim = dim
-
         if reset:
             self._init_empty()
             return
@@ -46,11 +48,18 @@ class VectorDB:
         print("[VectorDB] Initialized new empty FAISS index.")
 
     def add(self, embeddings: List[List[float]], metadatas: List[Dict[str, Any]]):
+        """
+        Add new embeddings + their metadata to the FAISS index.
+        """
         vecs = np.array(embeddings, dtype='float32')
         self.index.add(vecs)
         self.metadata.extend(metadatas)
 
     def query(self, query_vec: List[float], top_k: int = 5):
+        """
+        Query the FAISS index for the nearest `top_k` vectors.
+        Returns the corresponding metadata sorted by distance.
+        """
         q = np.array([query_vec], dtype='float32')
         D, I = self.index.search(q, top_k)
         results = []
@@ -62,6 +71,9 @@ class VectorDB:
         return results
 
     def save(self):
+        """
+        Persist FAISS index and metadata to disk.
+        """
         os.makedirs(os.path.dirname(self.index_path), exist_ok=True)
         faiss.write_index(self.index, self.index_path)
         with open(self.index_path + ".meta", "wb") as f:

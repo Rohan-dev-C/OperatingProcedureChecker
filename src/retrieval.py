@@ -13,7 +13,8 @@ from src.vector_db import VectorDB
 
 class Retrieval:
     """
-    Pull up to `top_k_per_doc` nearest vectors *per* regulatory file, then ask Claude only pick the relevant ones.
+    FAISS-based nearest neighbor per regulatory file
+    and Claude LLM relevance filtering.
     """
 
     def __init__(self,
@@ -21,6 +22,11 @@ class Retrieval:
                  top_k_per_doc: int = 3,
                  temperature: float = 0.2,
                  **_ignored):
+        """
+          db:             Prebuilt VectorDB of clause embeddings.
+          top_k_per_doc:  How many clauses to pull per source file.
+          temperature:    LLM temperature for Claude.
+        """
         self.db = db
         self.top_k_per_doc = top_k_per_doc
         self.llm = None
@@ -35,7 +41,10 @@ class Retrieval:
                 print("[Retrieval] ❕ Could not init Claude:", e)
 
     def _batch_top_per_doc(self, q_vec: List[float]) -> List[Dict[str, Any]]:
-        """Return ≤ top_k_per_doc vectors from *each* source PDF."""
+        """
+        Query FAISS once, then bucket by source and keep
+        the top_k_per_doc nearest from each file.
+        """
         D, I = self.db.index.search(np.asarray([q_vec], dtype="float32"),
                                     self.db.index.ntotal)
 
@@ -49,11 +58,18 @@ class Retrieval:
         return [meta for src in buckets for _, meta in buckets[src]]
 
     def retrieve(self, sop_text: str) -> List[Dict[str, Any]]:
+        """
+        Embed `text` and return up to top_k_per_doc clauses
+        per regulatory file.
+        """
         q_vec = embed_texts([sop_text])[0]
         return self._batch_top_per_doc(q_vec)
 
     def filter_relevant(self, sop_text: str, candidates: List[Dict[str, Any]]):
-        """Use Claude to keep only relevant clauses, else return all."""
+        """
+        Ask Claude to pick only the truly relevant clause indices.
+        If LLM is disabled or fails, returns all candidates.
+        """
         if not self.llm:
             return candidates
 

@@ -1,38 +1,25 @@
-# ---------- base image ----------
+
     FROM python:3.12-slim
 
-    # ---------- metadata ----------
     LABEL maintainer="you@example.com"
     LABEL description="SOP-Regulation compliance checker with Claude & FastAPI UI"
     
-    # ---------- environment ----------
     ENV PYTHONDONTWRITEBYTECODE=1 \
         PYTHONUNBUFFERED=1 \
         PIP_NO_CACHE_DIR=1 \
-        # Hugging-Face tokenizers sometimes complain about fork; suppress
         TOKENIZERS_PARALLELISM=false
-    
-    # ---------- system deps ----------
     RUN apt-get update && apt-get install -y \
           build-essential wget \
        && rm -rf /var/lib/apt/lists/*
-    
-    # ---------- project ----------
     WORKDIR /app
     COPY requirements.txt .
     
-    # ---------- install python deps ----------
     RUN pip install --upgrade pip \
      && pip install -r requirements.txt
-    
-    # ---------- copy source ----------
     COPY src/ ./src/
     COPY data/ ./data/            
     COPY vector_store/ ./vector_store/
-    
-    # ---------- expose port ----------
     EXPOSE 8000
     
-    # ---------- default command ----------
     CMD [ "uvicorn", "src.webapp.main:app", "--host", "0.0.0.0", "--port", "8000" ]
     

@@ -13,6 +13,13 @@ import os
 def generate_markdown_report(sections: List[Dict[str, str]],
                              suggestions: List[Dict[str, str]],
                              path: str = "compliance_report.md"):
+    """
+    Write `compliance_report.md` summarizing
+    each SOP section and the relevant clauses
+    and their differences, suggestions, source filenames.
+    
+    Creates the output directory if needed.
+    """
     grouped = defaultdict(list)
     for s in suggestions:
         grouped[s["section_id"]].append(s)
