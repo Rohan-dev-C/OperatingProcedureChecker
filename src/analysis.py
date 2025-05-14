@@ -10,12 +10,10 @@ import textwrap
 
 from langchain_anthropic import ChatAnthropic
 
-# Trim text utility
 def _short(txt: str, n: int = 160) -> str:
     clean = " ".join(txt.split())
     return clean if len(clean) <= n else clean[:n].rsplit(" ", 1)[0] + "…"
 
-# Regex to extract the first JSON object
 JSON_RE = re.compile(r"\{.*\}", re.DOTALL)
 
 
