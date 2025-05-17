@@ -11,6 +11,13 @@ import textwrap
 from langchain_anthropic import ChatAnthropic
 
 def _short(txt: str, n: int = 160) -> str:
+    """
+    Trim whitespace and collapse to ≤ n characters (word-safe).
+    
+    txt: Original text.
+    n:  Maximum length.
+    Returns Cleaned, truncated string.
+    """
     clean = " ".join(txt.split())
     return clean if len(clean) <= n else clean[:n].rsplit(" ", 1)[0] + "…"
 
