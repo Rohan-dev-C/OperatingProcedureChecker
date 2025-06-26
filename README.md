@@ -1,6 +1,6 @@
-# Reg-Compliance Suite
+# Safey Compliance Suite
 
-A toolkit for regulatory compliance checks:
+A toolkit for automated industrial compliance checks:
 
 1. Operating Procedure Verification `SafetyRegulationSuite/SOP-Regulation-Verifier`
    – Extracts clauses from a directory of regulatory PDFs/DOCXs, indexes them via TF-IDF, and flags any required regulations missing from your SOP.
