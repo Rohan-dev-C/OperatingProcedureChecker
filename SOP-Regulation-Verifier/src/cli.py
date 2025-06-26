@@ -24,7 +24,7 @@ def run_pipeline(sop_dir: str, regs_dir: str, top_k_per_doc: int = 3) -> None:
     top_k_per_doc:  How many clauses to pull per regulatory file.
     """
     
-    print("Loading SOP and regulatory documents...")
+    print("Loading SOP and regulatory documents")
     sop_texts = load_documents(sop_dir)
     reg_texts = load_documents(regs_dir)
     print(f"Loaded {len(sop_texts)} SOP files, {len(reg_texts)} regulatory docs.")
