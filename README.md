@@ -1,4 +1,4 @@
-# Safey Compliance Suite
+# Industrial Safety Compliance Suite
 
 A toolkit for automated industrial compliance checks:
 
