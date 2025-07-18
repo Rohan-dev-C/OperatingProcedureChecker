@@ -3,8 +3,8 @@
 A toolkit for automated industrial compliance checks:
 
 1. Operating Procedure Verification `SafetyRegulationSuite/SOP-Regulation-Verifier`
-   – Extracts clauses from a directory of regulatory PDFs/DOCXs, indexes them via TF-IDF, and flags any required regulations missing from your SOP.
-3. Piping & Instrumentation Diagram Verification `SafetyRegulationSuite/PID-Regulation-Verifier`
+   – Extracts clauses from a directory of regulatory PDFs/DOCXs, indexes them via TF-IDF, and flags any required regulations missing from your Standard Operating Procedure.
+2. Piping & Instrumentation Diagram (P&ID) Verification `SafetyRegulationSuite/PID-Regulation-Verifier`
    - Detects components (valves, pumps, sensors) in engineering diagrams (P&IDs), builds a process graph, and ensures your SOP steps reference every diagram component.
 
 ---
@@ -15,7 +15,7 @@ A toolkit for automated industrial compliance checks:
 - **TF-IDF Indexing**: Builds a lightweight text index for fast similarity search, stores embeddings in a FAISS vector database.  
 - **Graph Construction**: Uses YOLOv8 + OpenCV to detect P&ID symbols and infer connections with NetworkX.  
 - **SOP Parsing**: Reads DOCX SOPs (paragraphs & tables) to extract component references.  
-- **Discrepancy Logging**: Human-readable Markdown reports.  
+- **Discrepancy Logging**: Generates Human-readable Markdown reports viewable through a FastAPI web interface. 
 
 ---
 
